@@ -1,0 +1,29 @@
+name: Artifact
+
+on: 
+  push:
+    branches:
+      - artifact
+
+jobs:
+  upload_artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: src/
+
+  download_artifact:
+    runs-on: ubuntu-latest
+    needs: upload_artifact
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+      - run: ls -R
+
+
